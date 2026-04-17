@@ -9,11 +9,17 @@ def main():
         print("No changes found")
         return
 
+    # 🔥 Only send added lines (+)
+    filtered = "\n".join([
+        line for line in diff.split("\n")
+        if line.startswith("+") and not line.startswith("+++")
+    ])
+
     past_logs = str(load_past_failures()[:3])
 
     print("🚀 AI Review Running...\n")
 
-    result = ai_review(diff, "branch_diff", past_logs)
+    result = ai_review(filtered, "sample.py", past_logs)
 
     print("\n=== AI SUGGESTIONS ===\n")
     print(result)
